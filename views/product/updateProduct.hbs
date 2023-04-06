@@ -1,0 +1,48 @@
+<form method="post" action="/product/update-product/{{getdetail._id}}" enctype="multipart/form-data">
+    <input type="text" name="product_name" id="product_name" placeholder="Nhập tên sản phẩm"
+        value="{{getdetail.product_name}}" /> <br />
+    <input type="number" name="product_price" id="product_price" placeholder="Nhập giá tiền"
+        value="{{getdetail.product_price}}" /> <br />
+    <input type="file" name="product_img" id="product_img" onchange="loadFile(event);" /> <br />
+    <img width="300" height="250" id="product_img" alt="Image" src="{{getdetail.product_img}}" /> <br />
+    <select name="product_category" >
+        {{#each category}}
+            {{#if this.isSelected}}
+                <option selected value="{{this._id}}">{{this.category_name}}</option>
+            {{else}}
+                <option value="{{this._id}}">{{this.category_name}}</option>
+            {{/if}}
+        {{/each}}
+    </select> <br />
+    
+
+    <button type="submit" onclick="">add product</button>
+</form>
+
+<script>
+
+    const validation = () => {
+        const name = document.getElementById('name').value;
+        const price = $('#price').val();
+        const quantity = $('#quantity').val();
+        const description = $('#description').val();
+        const image = $('#image').val();
+        if (name && price && quantity && description && image) {
+            $('input[type="submit"]').removeAttr('disabled');
+        } else {
+            $('input[type="submit"]').attr('disabled', 'disabled');
+        }
+    }
+
+    const loadFile = function (event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('product_img');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+    const addProduct = () => {
+        window.location.href = `/product/add`;
+    }
+</script>
